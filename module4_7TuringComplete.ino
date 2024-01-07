@@ -10,14 +10,17 @@
 #define MI  0b0100000000000000 //(RAM memeory address in)
 #define RI  0b0010000000000000 //(RAM memeory content in)
 #define RO  0b0001000000000000 //(RAM memeory content out)
+//----
 #define IO  0b0000100000000000 //(instruction out)
 #define II  0b0000010000000000 //(instruction in)
 #define AI  0b0000001000000000 //(A register in)
 #define AO  0b0000000100000000 //(A register out)
+//----
 #define EO  0b0000000010000000 //(ALU sum in)
 #define SU  0b0000000001000000 //(ALU subtract)
 #define BI  0b0000000000100000 //(B register in)
 #define OI  0b0000000000010000 //(output display)
+//----
 #define CE  0b0000000000001000 //(counter enable)
 #define CO  0b0000000000000100 //(counter out)
 #define J   0b0000000000000010 //(counter in, or jump)
@@ -32,13 +35,13 @@ const PROGMEM uint16_t INSTRUCTION_TEMPLATE[16][8] = {
   {MI|CO, RO|II|CE, IO|AI, 0,     0,           0, 0, 0}, //0101 - LDI (load register A from instruction)
   {MI|CO, RO|II|CE, IO|J,  0,     0,           0, 0, 0}, //0110 - JMP (jump to instruction)
   {MI|CO, RO|II|CE, 0,     0,     0,           0, 0, 0}, //0111 - JC  (jump on carry)
-  {MI|CO, RO|II|CE, 0,     0,     0,           0, 0, 0}, //1000 - JC  (jump on zero)
+  {MI|CO, RO|II|CE, 0,     0,     0,           0, 0, 0}, //1000 - JZ  (jump on zero)
   {MI|CO, RO|II|CE, 0,     0,     0,           0, 0, 0}, //1001
   {MI|CO, RO|II|CE, 0,     0,     0,           0, 0, 0}, //1010
   {MI|CO, RO|II|CE, 0,     0,     0,           0, 0, 0}, //1011
   {MI|CO, RO|II|CE, 0,     0,     0,           0, 0, 0}, //1100
-  {MI|CO, RO|II|CE, 0,     0,     0,           0, 0, 0}, //1101
-  {MI|CO, RO|II|CE, AO|OI, 0,     0,           0, 0, 0}, //1110 - OUT (display output)
+  {MI|CO, RO|II|CE, EO|OI, 0,     0,           0, 0, 0}, //1101 - OUTE (display sum)
+  {MI|CO, RO|II|CE, AO|OI, 0,     0,           0, 0, 0}, //1110 - OUTA (display A)
   {MI|CO, RO|II|CE, HLT,   0,     0,           0, 0, 0}, //1111 - HLT (halt)
 };
 uint16_t INSTRUCTION_MAP[4][16][8];
@@ -93,7 +96,8 @@ void setup() {
   printEEPROM(0, 1024);
 
   digitalWrite(EEPROM_WRITE_ENABLE, HIGH);
-  setAddress(1, true);
+//  setAddress(0b10101010101, true);
+  setAddress(0, true);
   Serial.println("End of code.");
 }
 void loop() {}

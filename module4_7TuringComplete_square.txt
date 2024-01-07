@@ -1,0 +1,24 @@
+0000: LDA  14: 0001 1110
+0001: OUT    : 1110 0000
+0010: SUB  12: 0011 1100
+0011: JC    7: 0111 0111
+0100: LDA  13: 0001 1101
+0101: OUT    : 1110 0000
+0110: HLT    : 1111 0000
+
+0111: STA  14: 0100 1110
+1000: LDA  13: 0001 1101
+1001: ADD  15: 0010 1111
+1010: STA  13: 0100 1101
+1011: JMP   0: 0110 0000
+1100: ADDR 12: 0000 0001 (1) 
+1101: ADDR 13: 0000 0000 (result => need to reload to 0 every time) 
+1110: ADDR 14: xxxx xxxx (iter   => need to reload to x every time) 
+1111: ADDR 15: xxxx xxxx (x)
+
+
+
+result = x^2
+
+
+
